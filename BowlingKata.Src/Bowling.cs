@@ -1,4 +1,7 @@
-﻿namespace BowlingKata.Src
+﻿using System;
+using System.Linq;
+
+namespace BowlingKata.Src
 {
     public class Bowling
     {
@@ -6,7 +9,18 @@
         {
             if (game == "1-|--|--|--|--|--|--|--|--|--|")
             {
-                return 1 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0;
+                var rolls = game
+                            .Split(new string[] {"|"}, StringSplitOptions.RemoveEmptyEntries)
+                            .SelectMany(frame =>
+                            {
+                                int first; 
+                                int.TryParse(frame[0].ToString(), out first);
+                                int second; 
+                                int.TryParse(frame[1].ToString(), out second);
+                                return new[] {first, second};
+                            });
+
+                return rolls.Sum();
             }
             if (game == "13|--|--|--|--|--|--|--|--|--|")
             {
