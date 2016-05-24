@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BowlingKata.Src
@@ -7,24 +8,9 @@ namespace BowlingKata.Src
     {
         public int CalculateScore(string game)
         {
-            if (game == "1-|--|--|--|--|--|--|--|--|--|")
-            {
-                var rolls = game
-                            .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries)
-                            .SelectMany(frame =>
-                            {
-                                var first = frame.RollScore(0);
-                                var second = frame.RollScore(1);
-                                return new[] { first, second };
-                            });
+            var rolls = game.ToRolls();
 
-                return rolls.Sum();
-            }
-            if (game == "13|--|--|--|--|--|--|--|--|--|")
-            {
-                return 1 + 3 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0;
-            }
-            return 0;
+            return rolls.Sum();
         }
     }
 
@@ -32,9 +18,21 @@ namespace BowlingKata.Src
     {
         public static int RollScore(this string frame, int index)
         {
-            int second;
-            Int32.TryParse(frame[index].ToString(), out second);
-            return second;
+            int score;
+            Int32.TryParse(frame[index].ToString(), out score);
+            return score;
+        }
+
+        public static IEnumerable<int> ToRolls(this string game)
+        {
+            return game
+                .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries)
+                .SelectMany(frame =>
+                {
+                    var first = frame.RollScore(0);
+                    var second = frame.RollScore(1);
+                    return new[] { first, second };
+                });
         }
     }
 }
