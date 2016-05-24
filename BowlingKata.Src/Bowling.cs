@@ -10,14 +10,12 @@ namespace BowlingKata.Src
             if (game == "1-|--|--|--|--|--|--|--|--|--|")
             {
                 var rolls = game
-                            .Split(new string[] {"|"}, StringSplitOptions.RemoveEmptyEntries)
+                            .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries)
                             .SelectMany(frame =>
                             {
-                                int first; 
-                                int.TryParse(frame[0].ToString(), out first);
-                                int second; 
-                                int.TryParse(frame[1].ToString(), out second);
-                                return new[] {first, second};
+                                var first = frame.RollScore(0);
+                                var second = frame.RollScore(1);
+                                return new[] { first, second };
                             });
 
                 return rolls.Sum();
@@ -26,7 +24,17 @@ namespace BowlingKata.Src
             {
                 return 1 + 3 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0 + 0;
             }
-                return 0;
+            return 0;
+        }
+    }
+
+    public static class FrameExtensions
+    {
+        public static int RollScore(this string frame, int index)
+        {
+            int second;
+            Int32.TryParse(frame[index].ToString(), out second);
+            return second;
         }
     }
 }
