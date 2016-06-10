@@ -12,10 +12,17 @@ namespace BowlingKata.Src
                 StringSplitOptions.RemoveEmptyEntries)[0];
             var frames = gameResults.Split(new string[] { "|" },
                 StringSplitOptions.RemoveEmptyEntries);
-            foreach (var frame in frames)
+            for (int i = 0; i < frames.Length; i++)
             {
-                _calculateScore += RollScore(frame, 0) +
-                    RollScore(frame, 1);
+                var frame = frames[i];
+                var frameScore = RollScore(frame, 0) +
+                                     RollScore(frame, 1);
+                if (frameScore == 10)
+                {
+                    var nextFrame = frames[i + 1];
+                    frameScore += RollScore(nextFrame, 0);
+                }
+                _calculateScore += frameScore;
             }
             return _calculateScore;
         }
@@ -25,7 +32,7 @@ namespace BowlingKata.Src
             int rollScore;
             if (frame[index] == '/')
             {
-                return rollScore = 10;
+                return rollScore = 10 - RollScore(frame, index - 1);
             }
             int.TryParse(frame[index].ToString(), out rollScore);
             return rollScore;
