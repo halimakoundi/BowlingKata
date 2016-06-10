@@ -1,51 +1,58 @@
 ﻿using System;
+using System.Linq;
 
 namespace BowlingKata.Src
 {
     public class Bowling
     {
-        private int _calculateScore;
+        private int _gameScore;
+        private string _gameResults;
+        private Frame[] _frames;
 
         public int CalculateScore(string game)
         {
-            var gameResults = game.Split(new string[] { "||" },
+            _gameResults = game.Split(new string[] { "||" },
                 StringSplitOptions.RemoveEmptyEntries)[0];
-            var frames = gameResults.Split(new string[] { "|" },
-                StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < frames.Length; i++)
+            _frames = GetFrames();
+            for (int i = 0; i < _frames.Length; i++)
             {
-                var frame = frames[i];
-                var frameScore = RollScore(frame, 0) +
-                                     RollScore(frame, 1);
-                if (frameScore == 10)
+                var frame = _frames[i];
+                _gameScore += frame.Score();
+                if (frame.Score() == 10)
                 {
-                    if (i < frames.Length - 1)
+                    if (frame.IsNotFrameBeforeLast(_frames.Length))
                     {
-                        var nextFrame = frames[i + 1];
-                        frameScore += RollScore(nextFrame, 0);
+                        var nextFrame = _frames[i + 1];
+                        _gameScore += nextFrame.Rolls[0];
                     }
                     else
                     {
-                        var bonusRolls = game.Split(new string[] { "||" },
-                            StringSplitOptions.RemoveEmptyEntries)[1];
+                        var bonusRolls = BonusRolls(game);
                         var nextFrame = bonusRolls;
-                        frameScore += RollScore(nextFrame, 0);
+                        _gameScore += nextFrame.Rolls[0];
                     }
                 }
-                _calculateScore += frameScore;
             }
-            return _calculateScore;
+            return _gameScore;
         }
 
-        private static int RollScore(string frame, int index)
+        private static Frame BonusRolls(string game)
         {
-            int rollScore;
-            if (frame[index] == '/')
+            var games = game.Split(new string[] { "||" },
+                StringSplitOptions.RemoveEmptyEntries);
+            if (games.Length < 2)
             {
-                return rollScore = 10 - RollScore(frame, index - 1);
+                return null;
             }
-            int.TryParse(frame[index].ToString(), out rollScore);
-            return rollScore;
+            return games[1].Select((x, index) => new Frame(x.ToString(), index))
+                .FirstOrDefault();
+        }
+
+        private Frame[] GetFrames()
+        {
+            return _gameResults.Split(new string[] { "|" },
+                  StringSplitOptions.RemoveEmptyEntries)
+                  .Select((x, index) => new Frame(x, index)).ToArray();
         }
     }
 }
