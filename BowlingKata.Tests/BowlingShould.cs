@@ -7,10 +7,7 @@ namespace BowlingKata.Tests
     public class BowlingShould
     {
         [TestCase("--|--|--|--|--|--|--|--|--|--|", 0)]
-        [TestCase("1-|--|--|--|--|--|--|--|--|--|", 1)]
-        //[TestCase("13|--|--|--|--|--|--|--|--|--|", 4)]
-        //[TestCase("13|4-|--|--|--|--|--|--|--|--|", 8)]
-        //[TestCase("1/|4-|--|--|--|--|--|--|--|--|", 18)]
+       
         public void return_zero_for_all_gutter_game(string game, int expectedScore)
         {
             var bowling = new Bowling();
