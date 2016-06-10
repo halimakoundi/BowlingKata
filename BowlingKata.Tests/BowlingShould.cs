@@ -6,9 +6,8 @@ namespace BowlingKata.Tests
     [TestFixture]
     public class BowlingShould
     {
-        [TestCase("--|--|--|--|--|--|--|--|--|--|", 0)]
-       
-        public void return_zero_for_all_gutter_game(string game, int expectedScore)
+        [TestCase("11|11|11|11|11|11|11|11|11|11|", 20)]
+        public void return_sum_of_rolls_for_normal_game(string game, int expectedScore)
         {
             var bowling = new Bowling();
 
