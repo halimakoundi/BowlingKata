@@ -9,6 +9,7 @@ namespace BowlingKata.Tests
         [TestCase("11|11|11|11|11|11|11|11|11|11||", 20)]
         [TestCase("11|11|11|11|11|11|11|11|11|22||", 22)]
         [TestCase("-1|11|11|11|11|11|11|11|11|22||", 21)]
+        [TestCase("-1|11|11|11|1-|1-|-1|11|11|11||", 16 )]
         public void return_sum_of_rolls_for_normal_game(string game, int expectedScore)
         {
             var bowling = new Bowling();
