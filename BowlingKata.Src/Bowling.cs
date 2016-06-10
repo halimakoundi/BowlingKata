@@ -14,7 +14,9 @@ namespace BowlingKata.Src
                 StringSplitOptions.RemoveEmptyEntries);
             foreach (var frame in frames)
             {
-                _calculateScore += Convert.ToInt32(frame[0].ToString()) +
+                int rollscore = 0;
+                Int32.TryParse(frame[0].ToString(),out rollscore);
+                _calculateScore += rollscore +
                     Convert.ToInt32(frame[1].ToString());
             }
             return _calculateScore;
