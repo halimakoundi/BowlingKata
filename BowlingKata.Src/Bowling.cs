@@ -23,6 +23,10 @@ namespace BowlingKata.Src
         private static int RollScore(string frame, int index)
         {
             int rollScore;
+            if (frame[index] == '/')
+            {
+                return rollScore = 10;
+            }
             int.TryParse(frame[index].ToString(), out rollScore);
             return rollScore;
         }
