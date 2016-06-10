@@ -19,8 +19,18 @@ namespace BowlingKata.Src
                                      RollScore(frame, 1);
                 if (frameScore == 10)
                 {
-                    var nextFrame = frames[i + 1];
-                    frameScore += RollScore(nextFrame, 0);
+                    if (i < frames.Length - 1)
+                    {
+                        var nextFrame = frames[i + 1];
+                        frameScore += RollScore(nextFrame, 0);
+                    }
+                    else
+                    {
+                        var bonusRolls = game.Split(new string[] { "||" },
+                            StringSplitOptions.RemoveEmptyEntries)[1];
+                        var nextFrame = bonusRolls;
+                        frameScore += RollScore(nextFrame, 0);
+                    }
                 }
                 _calculateScore += frameScore;
             }
