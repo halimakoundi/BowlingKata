@@ -14,10 +14,13 @@ namespace BowlingKata.Src
                 StringSplitOptions.RemoveEmptyEntries);
             foreach (var frame in frames)
             {
-                int rollscore = 0;
-                Int32.TryParse(frame[0].ToString(),out rollscore);
-                _calculateScore += rollscore +
-                    Convert.ToInt32(frame[1].ToString());
+                int roll1score = 0;
+                int roll2score = 0;
+                Int32.TryParse(frame[0].ToString(),out roll1score);
+                Int32.TryParse(frame[1].ToString(), out roll2score);
+
+                _calculateScore += roll1score +
+                    roll2score;
             }
             return _calculateScore;
         }
