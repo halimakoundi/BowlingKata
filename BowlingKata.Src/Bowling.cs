@@ -20,17 +20,16 @@ namespace BowlingKata.Src
                 _gameScore += frame.Score();
                 if (frame.Score() == 10)
                 {
+                    Frame nextFrame;
                     if (frame.IsNotFrameBeforeLast(_frames.Length))
                     {
-                        var nextFrame = _frames[i + 1];
-                        _gameScore += nextFrame.Rolls[0];
+                        nextFrame = _frames[i + 1];
                     }
                     else
                     {
-                        var bonusRolls = BonusRolls(game);
-                        var nextFrame = bonusRolls;
-                        _gameScore += nextFrame.Rolls[0];
+                        nextFrame = BonusRolls(game);
                     }
+                    _gameScore += nextFrame.Rolls[0];
                 }
             }
             return _gameScore;
