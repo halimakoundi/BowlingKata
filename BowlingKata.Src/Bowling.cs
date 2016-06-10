@@ -1,4 +1,6 @@
-﻿namespace BowlingKata.Src
+﻿using System;
+
+namespace BowlingKata.Src
 {
     public class Bowling
     {
@@ -6,13 +8,16 @@
 
         public int CalculateScore(string game)
         {
-            _calculateScore = 20;
-            if(game.Contains("|22|"))
+            var gameResults = game.Split(new string[] { "||" },
+                StringSplitOptions.RemoveEmptyEntries)[0];
+            var frames = gameResults.Split(new string[] { "|" },
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach (var frame in frames)
             {
-                _calculateScore += 2;
+                _calculateScore += Convert.ToInt32(frame[0].ToString()) +
+                    Convert.ToInt32(frame[1].ToString());
             }
             return _calculateScore;
         }
     }
-
 }
