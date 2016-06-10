@@ -20,15 +20,7 @@ namespace BowlingKata.Src
                 _gameScore += frame.Score();
                 if (frame.Score() == 10)
                 {
-                    Frame nextFrame;
-                    if (frame.IsNotFrameBeforeLast(_frames.Length))
-                    {
-                        nextFrame = _frames[i + 1];
-                    }
-                    else
-                    {
-                        nextFrame = BonusRolls(game);
-                    }
+                    var nextFrame = !frame.IsLastFrame() ? _frames[i + 1] : BonusRolls(game);
                     _gameScore += nextFrame.Rolls[0];
                 }
             }
@@ -43,15 +35,16 @@ namespace BowlingKata.Src
             {
                 return null;
             }
-            return games[1].Select((x, index) => new Frame(x.ToString(), index))
+            return games[1].Select((x, index) => new Frame(x.ToString(), index, 0))
                 .FirstOrDefault();
         }
 
         private Frame[] GetFrames()
         {
-            return _gameResults.Split(new string[] { "|" },
-                  StringSplitOptions.RemoveEmptyEntries)
-                  .Select((x, index) => new Frame(x, index)).ToArray();
+            var gameResults = _gameResults.Split(new string[] { "|" },
+                  StringSplitOptions.RemoveEmptyEntries);
+            return gameResults
+                  .Select((x, index) => new Frame(x, index, gameResults.Length)).ToArray();
         }
     }
 }
