@@ -18,20 +18,25 @@ namespace BowlingKata.Src
             {
                 var frame = _frames[i];
                 _gameScore += frame.Score();
-                if (frame.Score() != 10) continue;
-                var nextFrame = !frame.IsLastFrame() ? _frames[i + 1]
+                if (frame.Score() == 10)
+                {
+                    var nextFrame = !frame.IsLastFrame() ? _frames[i + 1]
                     : BonusRolls(game);
-                _gameScore += nextFrame.Rolls[0];
-                if (!frame.IsStrike()) continue;
-                if (nextFrame.IsStrike())
-                {
-                    var secondNextFrame = frame.IsOneBeforeLastFrame()? BonusRolls(game): _frames[i+2];
-                    _gameScore += secondNextFrame.Rolls[0];
+                    _gameScore += nextFrame.GetRollScore(0);
+                    if (frame.IsStrike())
+                    {
+                        if (nextFrame.IsStrike())
+                        {
+                            var secondNextFrame = frame.IsOneBeforeLastFrame() ? BonusRolls(game) : _frames[i + 2];
+                            _gameScore += secondNextFrame.GetRollScore(0);
+                        }
+                        else
+                        {
+                            _gameScore += nextFrame.GetRollScore(1);
+                        }
+                    }
                 }
-                else
-                {
-                    _gameScore += nextFrame.Rolls[1];
-                }
+                
             }
             return _gameScore;
         }

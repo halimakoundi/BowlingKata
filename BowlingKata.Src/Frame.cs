@@ -8,7 +8,7 @@ namespace BowlingKata.Src
         private readonly int _index;
         private readonly bool _isLastFrame;
         private readonly bool _isOneBeforeLastFrame  ;
-        public int[] Rolls { get; set; }
+        private int[] Rolls { get; set; }
 
         public Frame(string rollsResult, int index, int gameLength)
         {
@@ -28,7 +28,7 @@ namespace BowlingKata.Src
             };
         }
 
-        private int GetRollScore(int index)
+        public int GetRollScore(int index)
         {
             if (_rollsResult.Length < index + 1)
             {
