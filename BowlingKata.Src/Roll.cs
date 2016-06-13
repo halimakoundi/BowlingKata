@@ -20,7 +20,7 @@ namespace BowlingKata.Src
             switch (rollsResult[index])
             {
                 case '/':
-                    return 10 - ParseRollScore(rollsResult, index +1);
+                    return 10 - ParseRollScore(rollsResult, index - 1);
                 case 'X':
                     return 10;
                 default:

@@ -8,7 +8,7 @@ namespace BowlingKata.Src
         private readonly int _index;
         private readonly bool _isLastFrame;
         private readonly bool _isOneBeforeLastFrame  ;
-        private Roll[] Rolls { get; set; }
+        private Roll[] _rolls;
 
         public Frame(string rollsResult, int index, int gameLength)
         {
@@ -21,7 +21,7 @@ namespace BowlingKata.Src
 
         private void PopulateRollsScore()
         {
-            Rolls = new Roll[]
+            _rolls = new Roll[]
             {
                 new Roll(_rollsResult, 0), 
                 new Roll(_rollsResult, 1), 
@@ -30,21 +30,7 @@ namespace BowlingKata.Src
 
         public int GetRollScore(int index)
         {
-            if (_rollsResult.Length < index + 1)
-            {
-                return 0;
-            }
-            switch (_rollsResult[index])
-            {
-                case '/':
-                    return 10 - GetRollScore(index - 1);
-                case 'X':
-                    return 10;
-                default:
-                    int rollScore;
-                    TryParse(_rollsResult[index].ToString(), out rollScore);
-                    return rollScore;
-            }
+            return _rolls[index].GetRollScore();
         }
 
         public int Score()
@@ -59,7 +45,7 @@ namespace BowlingKata.Src
 
         public bool IsStrike()
         {
-            return Score() == 10 && Rolls[1].GetRollScore() == 0;
+            return Score() == 10 && _rolls[1].GetRollScore() == 0;
         }
 
         public bool IsOneBeforeLastFrame()
