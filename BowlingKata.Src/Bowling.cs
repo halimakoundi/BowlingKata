@@ -24,6 +24,11 @@ namespace BowlingKata.Src
                     _gameScore += nextFrame.Rolls[0];
                     if (frame.IsStrike())
                     {
+                        if (nextFrame.IsStrike())
+                        {
+                            var secondNextFrame = _frames[i + 2];
+                            _gameScore += secondNextFrame.Rolls[0];
+                        }
                         _gameScore += nextFrame.Rolls[1];
                     }
                 }
