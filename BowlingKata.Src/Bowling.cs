@@ -14,24 +14,21 @@ namespace BowlingKata.Src
             _gameResults = game.Split(new string[] { "||" },
                 StringSplitOptions.RemoveEmptyEntries)[0];
             _frames = GetFrames();
-            for (int i = 0; i < _frames.Length; i++)
+            for (var i = 0; i < _frames.Length; i++)
             {
                 var frame = _frames[i];
                 _gameScore += frame.Score();
-                if (frame.Score() == 10)
+                if (frame.Score() != 10) continue;
+                var nextFrame = !frame.IsLastFrame() ? _frames[i + 1]
+                    : BonusRolls(game);
+                _gameScore += nextFrame.Rolls[0];
+                if (!frame.IsStrike()) continue;
+                if (nextFrame.IsStrike())
                 {
-                    var nextFrame = !frame.IsLastFrame() ? _frames[i + 1] : BonusRolls(game);
-                    _gameScore += nextFrame.Rolls[0];
-                    if (frame.IsStrike())
-                    {
-                        if (nextFrame.IsStrike())
-                        {
-                            var secondNextFrame = _frames[i + 2];
-                            _gameScore += secondNextFrame.Rolls[0];
-                        }
-                        _gameScore += nextFrame.Rolls[1];
-                    }
+                    var secondNextFrame = _frames[i + 2];
+                    _gameScore += secondNextFrame.Rolls[0];
                 }
+                _gameScore += nextFrame.Rolls[1];
             }
             return _gameScore;
         }
