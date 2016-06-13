@@ -22,6 +22,10 @@ namespace BowlingKata.Src
                 {
                     var nextFrame = !frame.IsLastFrame() ? _frames[i + 1] : BonusRolls(game);
                     _gameScore += nextFrame.Rolls[0];
+                    if (frame.IsStrike())
+                    {
+                        _gameScore += nextFrame.Rolls[1];
+                    }
                 }
             }
             return _gameScore;

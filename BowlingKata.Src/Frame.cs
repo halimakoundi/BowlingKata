@@ -22,16 +22,24 @@ namespace BowlingKata.Src
             this.Rolls = new int[]
             {
                 GetRollScore(0),
-                GetRollScore(0)
+                GetRollScore(1)
             };
         }
 
         private int GetRollScore(int index)
         {
             int rollScore;
+            if (this._rollsResult.Length < index + 1)
+            {
+                return 0;
+            }
             if (this._rollsResult[index] == '/')
             {
                 return 10 - GetRollScore(index - 1);
+            }
+            if (this._rollsResult[index] == 'X')
+            {
+                return 10;
             }
             Int32.TryParse(this._rollsResult[index].ToString(), out rollScore);
             return rollScore;
@@ -45,6 +53,11 @@ namespace BowlingKata.Src
         public bool IsLastFrame()
         {
             return _isLastFrame;
+        }
+
+        public bool IsStrike()
+        {
+            return this.Score() == 10 && this.Rolls[1] == 0;
         }
     }
 }
