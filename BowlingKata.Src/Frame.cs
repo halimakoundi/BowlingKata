@@ -1,11 +1,8 @@
-﻿using static System.Int32;
-
-namespace BowlingKata.Src
+﻿namespace BowlingKata.Src
 {
     internal class Frame
     {
         private readonly string _rollsResult;
-        private readonly int _index;
         private readonly bool _isLastFrame;
         private readonly bool _isOneBeforeLastFrame  ;
         private Roll[] _rolls;
@@ -13,7 +10,6 @@ namespace BowlingKata.Src
         public Frame(string rollsResult, int index, int gameLength)
         {
             _rollsResult = rollsResult;
-            _index = index;
             _isLastFrame = index == gameLength - 1;
             _isOneBeforeLastFrame = index == gameLength - 2;
             PopulateRollsScore();
