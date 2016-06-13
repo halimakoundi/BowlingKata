@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.Int32;
 
 namespace BowlingKata.Src
 {
@@ -28,21 +28,21 @@ namespace BowlingKata.Src
 
         private int GetRollScore(int index)
         {
-            int rollScore;
-            if (this._rollsResult.Length < index + 1)
+            if (_rollsResult.Length < index + 1)
             {
                 return 0;
             }
-            if (this._rollsResult[index] == '/')
+            switch (_rollsResult[index])
             {
-                return 10 - GetRollScore(index - 1);
+                case '/':
+                    return 10 - GetRollScore(index - 1);
+                case 'X':
+                    return 10;
+                default:
+                    int rollScore;
+                    TryParse(_rollsResult[index].ToString(), out rollScore);
+                    return rollScore;
             }
-            if (this._rollsResult[index] == 'X')
-            {
-                return 10;
-            }
-            Int32.TryParse(this._rollsResult[index].ToString(), out rollScore);
-            return rollScore;
         }
 
         public int Score()
