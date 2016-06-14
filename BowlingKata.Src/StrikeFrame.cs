@@ -3,7 +3,7 @@
     internal class StrikeFrame : Frame
     {
         private readonly Roll _nextRollResults;
-        private Roll _secondNextRollScore;
+        private readonly Roll _secondNextRollScore;
 
         public StrikeFrame(string rollsResult, int index, int gameLength, string[] gameResults, Roll[] bonusRolls) : base(rollsResult, index, gameLength)
         {
