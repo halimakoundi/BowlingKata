@@ -28,30 +28,43 @@ namespace BowlingKata.Src
             var extraFrameScore = 0;
             if (frame.Score() == 10)
             {
-                var nextFrame = !frame.IsLastFrame()
-                    ? _frames[i + 1]
-                        :null;
-
-                var nextRollScore = !frame.IsLastFrame()
-                    ? nextFrame.GetRollScore(0)
-                    : GetBonusRolls(game)[0].GetRollScore();
-
-                var secondNextRollScore = !frame.IsLastFrame()
-                    ? _frames[i + 1].GetRollScore(1)
-                    : GetBonusRolls(game)[1].GetRollScore();
-
-                extraFrameScore = nextRollScore;
+                var nextFrame = GetNextFrame(frame, i);
+                extraFrameScore = GetNextRollScore(game, frame, nextFrame);
 
                 if (frame.IsStrike())
                 {
-                    if (!frame.IsLastFrame() && nextFrame.IsStrike())
-                    {
-                        secondNextRollScore = frame.IsOneBeforeLastFrame() ? GetBonusRolls(game)[0].GetRollScore() : _frames[i + 2].GetRollScore(0);
-                    }
-                    extraFrameScore += secondNextRollScore;
+                    extraFrameScore += GetSecondNextRollScore(game, frame, i, nextFrame);
                 }
             }
             return extraFrameScore;
+        }
+
+        private int GetSecondNextRollScore(string game, Frame frame, int i, Frame nextFrame)
+        {
+            if (frame.IsStrike())
+            {
+                if (!frame.IsLastFrame() && nextFrame.IsStrike())
+                {
+                    return frame.IsOneBeforeLastFrame() ? GetBonusRolls(game)[0].GetRollScore() : _frames[i + 2].GetRollScore(0);
+                }
+            }
+            return !frame.IsLastFrame()
+                ? nextFrame.GetRollScore(1)
+                : GetBonusRolls(game)[1].GetRollScore();
+        }
+
+        private static int GetNextRollScore(string game, Frame frame, Frame nextFrame)
+        {
+            return !frame.IsLastFrame()
+                ? nextFrame.GetRollScore(0)
+                : GetBonusRolls(game)[0].GetRollScore();
+        }
+
+        private Frame GetNextFrame(Frame frame, int i)
+        {
+            return !frame.IsLastFrame()
+                ? _frames[i + 1]
+                    : null;
         }
 
         private static Roll[] GetBonusRolls(string game)
