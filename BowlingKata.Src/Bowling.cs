@@ -26,15 +26,13 @@ namespace BowlingKata.Src
         private int GetAllPinsDownFrameScore(string game, Frame frame, int i)
         {
             var extraFrameScore = 0;
-            if (frame.Score() == 10)
-            {
-                var nextFrame = GetNextFrame(frame, i);
-                extraFrameScore = GetNextRollScore(game, frame, nextFrame);
+            if (!frame.IsStrikeOrSpare()) return extraFrameScore;
+            var nextFrame = GetNextFrame(frame, i);
+            extraFrameScore = GetNextRollScore(game, frame, nextFrame);
 
-                if (frame.IsStrike())
-                {
-                    extraFrameScore += GetSecondNextRollScore(game, frame, i, nextFrame);
-                }
+            if (frame.IsStrike())
+            {
+                extraFrameScore += GetSecondNextRollScore(game, frame, i, nextFrame);
             }
             return extraFrameScore;
         }

@@ -48,5 +48,10 @@
         {
             return _isOneBeforeLastFrame;
         }
+
+        public bool IsStrikeOrSpare()
+        {
+            return Score() == 10;
+        }
     }
 }
