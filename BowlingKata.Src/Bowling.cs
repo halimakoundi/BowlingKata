@@ -25,34 +25,40 @@ namespace BowlingKata.Src
 
         private int GetAllPinsDownFrameScore(string game, Frame frame, int i)
         {
-            var frameScore = 0;
+            var extraFrameScore = 0;
             if (frame.Score() == 10)
             {
-                var nextFrame = !frame.IsLastFrame()
-                    ? _frames[i + 1]
-                    : BonusRolls(game);
-                frameScore = nextFrame.GetRollScore(0);
+                var nextRollScore = !frame.IsLastFrame()
+                    ? _frames[i + 1].GetRollScore(0)
+                    : GetBonusRolls(game)[0].GetRollScore();
+
+                var secondNextRollScore = !frame.IsLastFrame()
+                    ? _frames[i + 1].GetRollScore(1)
+                    : GetBonusRolls(game)[1].GetRollScore();
+
+                extraFrameScore = nextRollScore;
+
                 if (frame.IsStrike())
                 {
-                    if (nextFrame.IsStrike())
+                    if (!frame.IsLastFrame() && _frames[i + 1].IsStrike())
                     {
-                        var secondNextFrame = frame.IsOneBeforeLastFrame() ? BonusRolls(game) : _frames[i + 2];
-                        frameScore += secondNextFrame.GetRollScore(0);
+                        secondNextRollScore = frame.IsOneBeforeLastFrame() ? GetBonusRolls(game)[0].GetRollScore() : _frames[i + 2].GetRollScore(0);
+                        extraFrameScore += secondNextRollScore;
                     }
                     else
                     {
-                        frameScore += nextFrame.GetRollScore(1);
+                        extraFrameScore += secondNextRollScore;
                     }
                 }
             }
-            return frameScore;
+            return extraFrameScore;
         }
 
-        private static Frame BonusRolls(string game)
+        private static Roll[] GetBonusRolls(string game)
         {
             var games = game.Split(new string[] { "||" },
                 StringSplitOptions.RemoveEmptyEntries);
-            return games.Length < 2 ? null : new Frame(games[1], 0, 0);
+            return new Roll[] { new Roll(games[1], 0), new Roll(games[1], 1) };
         }
 
         private Frame[] GetFrames()
