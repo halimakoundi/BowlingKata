@@ -53,5 +53,14 @@
         {
             return Score() == 10;
         }
+
+        public static Frame Parse(string frameRolls, int frameIndex, int gameLength)
+        {
+            if (frameRolls.Length == 1 && frameRolls[0] == 'X')
+            {
+                return new StrikeFrame(frameRolls, frameIndex, gameLength);
+            }
+            return new Frame(frameRolls, frameIndex, gameLength);
+        }
     }
 }

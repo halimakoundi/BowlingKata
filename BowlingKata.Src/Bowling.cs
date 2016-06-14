@@ -83,7 +83,7 @@ namespace BowlingKata.Src
             var gameResults = _gameResults.Split(new string[] { "|" },
                   StringSplitOptions.RemoveEmptyEntries);
             return gameResults
-                  .Select((x, index) => new Frame(x, index, gameResults.Length)).ToArray();
+                  .Select((x, index) => Frame.Parse(x, index, gameResults.Length)).ToArray();
         }
     }
 }
