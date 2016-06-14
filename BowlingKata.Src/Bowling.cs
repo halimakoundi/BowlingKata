@@ -26,25 +26,25 @@ namespace BowlingKata.Src
             return _gameScore;
         }
 
-        private int GetAdditionalFrameScore(Frame frame, int i)
+        private int GetAdditionalFrameScore(Frame frame, int frameIndex)
         {
             var additionalFrameScore = 0;
             if (!frame.IsStrikeOrSpare()) return additionalFrameScore;
-            var nextFrame = GetNextFrame(frame, i);
+            var nextFrame = GetNextFrame(frame, frameIndex);
             additionalFrameScore = GetNextRollScore(frame, nextFrame);
 
             if (frame.IsStrike())
             {
-                additionalFrameScore += GetSecondNextRollScore(frame, i, nextFrame);
+                additionalFrameScore += GetSecondNextRollScore(frame, frameIndex, nextFrame);
             }
             return additionalFrameScore;
         }
 
-        private int GetSecondNextRollScore(Frame frame, int i, Frame nextFrame)
+        private int GetSecondNextRollScore(Frame frame, int frameIndex, Frame nextFrame)
         {
             if (!frame.IsLastFrame() && nextFrame.IsStrike())
             {
-                return frame.IsOneBeforeLastFrame() ? _bonusRolls[0].GetRollScore() : _frames[i + 2].GetRollScore(0);
+                return frame.IsOneBeforeLastFrame() ? _bonusRolls[0].GetRollScore() : _frames[frameIndex + 2].GetRollScore(0);
             }
             return !frame.IsLastFrame()
                 ? nextFrame.GetRollScore(1)
@@ -58,10 +58,10 @@ namespace BowlingKata.Src
                 : _bonusRolls[0].GetRollScore();
         }
 
-        private Frame GetNextFrame(Frame frame, int i)
+        private Frame GetNextFrame(Frame frame, int frameIndex)
         {
             return !frame.IsLastFrame()
-                ? _frames[i + 1]
+                ? _frames[frameIndex + 1]
                     : null;
         }
 
