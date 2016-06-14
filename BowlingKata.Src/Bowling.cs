@@ -53,9 +53,7 @@ namespace BowlingKata.Src
 
         private static int GetNextRollScore(Frame frame, Frame nextFrame)
         {
-            return !frame.IsLastFrame()
-                ? nextFrame.GetRollScore(0)
-                : _bonusRolls[0].GetRollScore();
+            return frame.GetNextRollScore();
         }
 
         private Frame GetNextFrame(Frame frame, int frameIndex)
@@ -82,11 +80,9 @@ namespace BowlingKata.Src
         {
             var gameResults = _gameResults.Split(new string[] { "|" },
                   StringSplitOptions.RemoveEmptyEntries);
-            var bonusRolls = _gameResults.Split(new string[] { "||" },
-                StringSplitOptions.RemoveEmptyEntries);
 
             return gameResults
-                  .Select((x, index) => Frame.Parse(x, index, gameResults.Length, gameResults, bonusRolls)).ToArray();
+                  .Select((x, index) => Frame.Parse(x, index, gameResults.Length, gameResults, _bonusRolls)).ToArray();
         }
     }
 }
