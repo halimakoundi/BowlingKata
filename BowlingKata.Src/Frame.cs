@@ -2,31 +2,31 @@
 {
     internal class Frame
     {
-        private readonly string _rollsResult;
+        protected readonly string RollsResult;
         private readonly bool _isLastFrame;
         private readonly bool _isOneBeforeLastFrame  ;
-        private Roll[] _rolls;
+        protected Roll[] Rolls;
 
         public Frame(string rollsResult, int index, int gameLength)
         {
-            _rollsResult = rollsResult;
+            RollsResult = rollsResult;
             _isLastFrame = index == gameLength - 1;
             _isOneBeforeLastFrame = index == gameLength - 2;
             PopulateRollsScore();
         }
 
-        private void PopulateRollsScore()
+        protected virtual void PopulateRollsScore()
         {
-            _rolls = new Roll[]
+            Rolls = new Roll[]
             {
-                new Roll(_rollsResult, 0), 
-                new Roll(_rollsResult, 1), 
+                new Roll(RollsResult, 0), 
+                new Roll(RollsResult, 1), 
             };
         }
 
         public int GetRollScore(int index)
         {
-            return _rolls[index].GetRollScore();
+            return Rolls[index].GetRollScore();
         }
 
         public int Score()
@@ -41,7 +41,7 @@
 
         public bool IsStrike()
         {
-            return Score() == 10 && _rolls[1].GetRollScore() == 0;
+            return Score() == 10 && Rolls[1].GetRollScore() == 0;
         }
 
         public bool IsOneBeforeLastFrame()
@@ -54,15 +54,15 @@
             return Score() == 10;
         }
 
-        public static Frame Parse(string frameRolls, int frameIndex, int gameLength)
+        public static Frame Parse(string frameRolls, int frameIndex, int gameLength, string[] gameResults)
         {
             if (frameRolls.Length == 1 && frameRolls[0] == 'X')
             {
-                return new StrikeFrame(frameRolls, frameIndex, gameLength);
+                return new StrikeFrame(frameRolls, frameIndex, gameLength, gameResults);
             }
             if (frameRolls.Length > 1 && frameRolls[1] == '/')
             {
-                return new SpareFrame(frameRolls, frameIndex, gameLength);
+                return new SpareFrame(frameRolls, frameIndex, gameLength, gameResults);
             }
             return new Frame(frameRolls, frameIndex, gameLength);
         }
