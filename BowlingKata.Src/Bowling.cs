@@ -21,12 +21,12 @@ namespace BowlingKata.Src
             {
                 var frame = _frames[i];
                 _gameScore += frame.Score();
-                _gameScore += GetAllPinsDownFrameScore(frame, i);
+                _gameScore += GetExtraFrameScore(frame, i);
             }
             return _gameScore;
         }
 
-        private int GetAllPinsDownFrameScore(Frame frame, int i)
+        private int GetExtraFrameScore(Frame frame, int i)
         {
             var extraFrameScore = 0;
             if (!frame.IsStrikeOrSpare()) return extraFrameScore;
