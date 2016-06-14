@@ -4,11 +4,11 @@
     {
         private readonly string _nextRollResults;
 
-        public StrikeFrame(string rollsResult, int index, int gameLength, string[] gameResults) : base(rollsResult, index, gameLength)
+        public StrikeFrame(string rollsResult, int index, int gameLength, string[] gameResults, string[] bonusRolls) : base(rollsResult, index, gameLength)
         {
-            _nextRollResults = index < gameLength - 1 ?
-                                gameResults[index + 1]
-                                : string.Empty;
+            _nextRollResults = !IsLastFrame() ?
+                               gameResults[index + 1]
+                               : bonusRolls[0];
             PopulateNextRollScore();
         }
 

@@ -58,7 +58,7 @@
         {
             if (frameRolls.Length == 1 && frameRolls[0] == 'X')
             {
-                return new StrikeFrame(frameRolls, frameIndex, gameLength, gameResults);
+                return new StrikeFrame(frameRolls, frameIndex, gameLength, gameResults, bonusRolls);
             }
             if (frameRolls.Length > 1 && frameRolls[1] == '/')
             {
