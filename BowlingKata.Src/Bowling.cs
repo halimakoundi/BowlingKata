@@ -30,7 +30,7 @@ namespace BowlingKata.Src
             {
                 var nextFrame = !frame.IsLastFrame()
                     ? _frames[i + 1]
-                    :null;
+                        :null;
 
                 var nextRollScore = !frame.IsLastFrame()
                     ? nextFrame.GetRollScore(0)
