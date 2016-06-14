@@ -60,6 +60,10 @@
             {
                 return new StrikeFrame(frameRolls, frameIndex, gameLength);
             }
+            if (frameRolls.Length > 1 && frameRolls[1] == '/')
+            {
+                return new SpareFrame(frameRolls, frameIndex, gameLength);
+            }
             return new Frame(frameRolls, frameIndex, gameLength);
         }
     }
