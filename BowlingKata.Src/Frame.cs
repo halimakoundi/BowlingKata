@@ -54,7 +54,7 @@
             return Score() == 10;
         }
 
-        public static Frame Parse(string frameRolls, int frameIndex, int gameLength, string[] gameResults)
+        public static Frame Parse(string frameRolls, int frameIndex, int gameLength, string[] gameResults, string[] bonusRolls)
         {
             if (frameRolls.Length == 1 && frameRolls[0] == 'X')
             {
@@ -62,7 +62,7 @@
             }
             if (frameRolls.Length > 1 && frameRolls[1] == '/')
             {
-                return new SpareFrame(frameRolls, frameIndex, gameLength, gameResults);
+                return new SpareFrame(frameRolls, frameIndex, gameLength, gameResults, bonusRolls);
             }
             return new Frame(frameRolls, frameIndex, gameLength);
         }
