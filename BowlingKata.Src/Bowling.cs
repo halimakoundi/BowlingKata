@@ -8,11 +8,14 @@ namespace BowlingKata.Src
         private int _gameScore;
         private string _gameResults;
         private Frame[] _frames;
+        private static Roll[] _bonusRolls;
 
         public int CalculateScore(string game)
         {
             _gameResults = game.Split(new string[] { "||" },
                 StringSplitOptions.RemoveEmptyEntries)[0];
+            _bonusRolls = GetBonusRolls(game);
+
             _frames = GetFrames();
             for (var i = 0; i < _frames.Length; i++)
             {
@@ -28,7 +31,7 @@ namespace BowlingKata.Src
             var extraFrameScore = 0;
             if (!frame.IsStrikeOrSpare()) return extraFrameScore;
             var nextFrame = GetNextFrame(frame, i);
-            extraFrameScore = GetNextRollScore(game, frame, nextFrame);
+            extraFrameScore = GetNextRollScore(frame, nextFrame);
 
             if (frame.IsStrike())
             {
@@ -41,18 +44,18 @@ namespace BowlingKata.Src
         {
             if (!frame.IsLastFrame() && nextFrame.IsStrike())
             {
-                return frame.IsOneBeforeLastFrame() ? GetBonusRolls(game)[0].GetRollScore() : _frames[i + 2].GetRollScore(0);
+                return frame.IsOneBeforeLastFrame() ? _bonusRolls[0].GetRollScore() : _frames[i + 2].GetRollScore(0);
             }
             return !frame.IsLastFrame()
                 ? nextFrame.GetRollScore(1)
-                : GetBonusRolls(game)[1].GetRollScore();
+                : _bonusRolls[1].GetRollScore();
         }
 
-        private static int GetNextRollScore(string game, Frame frame, Frame nextFrame)
+        private static int GetNextRollScore(Frame frame, Frame nextFrame)
         {
             return !frame.IsLastFrame()
                 ? nextFrame.GetRollScore(0)
-                : GetBonusRolls(game)[0].GetRollScore();
+                : _bonusRolls[0].GetRollScore();
         }
 
         private Frame GetNextFrame(Frame frame, int i)
@@ -66,7 +69,13 @@ namespace BowlingKata.Src
         {
             var games = game.Split(new string[] { "||" },
                 StringSplitOptions.RemoveEmptyEntries);
-            return new Roll[] { new Roll(games[1], 0), new Roll(games[1], 1) };
+            return games.Length > 1 ? 
+                                    new Roll[]
+                                    {
+                                        new Roll(games[1], 0),
+                                        new Roll(games[1], 1)
+                                    }
+                                    : null;
         }
 
         private Frame[] GetFrames()
