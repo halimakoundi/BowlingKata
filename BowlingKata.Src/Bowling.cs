@@ -21,12 +21,12 @@ namespace BowlingKata.Src
             {
                 var frame = _frames[i];
                 _gameScore += frame.Score();
-                _gameScore += GetAllPinsDownFrameScore(game, frame, i);
+                _gameScore += GetAllPinsDownFrameScore(frame, i);
             }
             return _gameScore;
         }
 
-        private int GetAllPinsDownFrameScore(string game, Frame frame, int i)
+        private int GetAllPinsDownFrameScore(Frame frame, int i)
         {
             var extraFrameScore = 0;
             if (!frame.IsStrikeOrSpare()) return extraFrameScore;
@@ -35,12 +35,12 @@ namespace BowlingKata.Src
 
             if (frame.IsStrike())
             {
-                extraFrameScore += GetSecondNextRollScore(game, frame, i, nextFrame);
+                extraFrameScore += GetSecondNextRollScore(frame, i, nextFrame);
             }
             return extraFrameScore;
         }
 
-        private int GetSecondNextRollScore(string game, Frame frame, int i, Frame nextFrame)
+        private int GetSecondNextRollScore(Frame frame, int i, Frame nextFrame)
         {
             if (!frame.IsLastFrame() && nextFrame.IsStrike())
             {
