@@ -76,5 +76,18 @@
         {
             return 0;
         }
+
+        public int GetAdditionalFrameScore()
+        {
+            var additionalFrameScore = 0;
+            if (!IsStrikeOrSpare()) return additionalFrameScore;
+            additionalFrameScore = GetNextRollScore();
+
+            if (IsStrike())
+            {
+                additionalFrameScore += GetSecondNextRollScore();
+            }
+            return additionalFrameScore;
+        }
     }
 }

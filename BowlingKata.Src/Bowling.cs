@@ -21,22 +21,9 @@ namespace BowlingKata.Src
             {
                 var frame = _frames[i];
                 _gameScore += frame.Score();
-                _gameScore += GetAdditionalFrameScore(frame);
+                _gameScore += frame.GetAdditionalFrameScore();
             }
             return _gameScore;
-        }
-
-        private int GetAdditionalFrameScore(Frame frame)
-        {
-            var additionalFrameScore = 0;
-            if (!frame.IsStrikeOrSpare()) return additionalFrameScore;
-            additionalFrameScore = frame.GetNextRollScore();
-
-            if (frame.IsStrike())
-            {
-                additionalFrameScore += frame.GetSecondNextRollScore();
-            }
-            return additionalFrameScore;
         }
 
         private static Roll[] GetBonusRolls(string game)
