@@ -4,13 +4,20 @@
     {
         private Roll _nextRollScore;
         private Roll _secondNextRollScore;
+        private readonly bool _isOneBeforeLastFrame;
 
         public StrikeFrame(string rollsResult, int index, int gameLength,
-                            string[] gameResults, Roll[] bonusRolls)
-                            : base(rollsResult, index, gameLength)
+            string[] gameResults, Roll[] bonusRolls)
+            : base(rollsResult, index, gameLength)
         {
+            _isOneBeforeLastFrame = index == gameLength - 2;
             SetNextRollScores(index, gameResults, bonusRolls);
             PopulateNextRollScore();
+        }
+
+        public override int Score()
+        {
+            return base.Score() + GetNextRollScore() + GetSecondNextRollScore();
         }
 
         private void SetNextRollScores(int index, string[] gameResults, Roll[] bonusRolls)
@@ -28,9 +35,9 @@
             var nextFrameIsStrike = nextFrameResults.Length == 1;
             if (nextFrameIsStrike)
             {
-                _secondNextRollScore = IsOneBeforeLastFrame() ?
-                                       bonusRolls[0]
-                                       : new Roll(gameResults[index + 2], 0);
+                _secondNextRollScore = _isOneBeforeLastFrame
+                    ? bonusRolls[0]
+                    : new Roll(gameResults[index + 2], 0);
             }
         }
 
@@ -46,12 +53,12 @@
 
         }
 
-        public override int GetNextRollScore()
+        public int GetNextRollScore()
         {
             return Rolls[2].GetRollScore();
         }
 
-        public override int GetSecondNextRollScore()
+        public int GetSecondNextRollScore()
         {
             return _secondNextRollScore.GetRollScore();
         }

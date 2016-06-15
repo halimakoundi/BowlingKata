@@ -23,9 +23,15 @@
 
         }
 
-        public override int GetNextRollScore()
+        public override int Score()
+        {
+            return base.Score() + GetNextRollScore();
+        }
+
+        public int GetNextRollScore()
         {
             return Rolls[2].GetRollScore();
         }
+
     }
 }

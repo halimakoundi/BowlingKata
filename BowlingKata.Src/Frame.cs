@@ -4,14 +4,12 @@
     {
         protected readonly string RollsResult;
         private readonly bool _isLastFrame;
-        private readonly bool _isOneBeforeLastFrame  ;
         protected Roll[] Rolls;
 
         public Frame(string rollsResult, int index, int gameLength)
         {
             RollsResult = rollsResult;
-            _isLastFrame = index == gameLength - 1;
-            _isOneBeforeLastFrame = index == gameLength - 2;
+            _isLastFrame = index == gameLength - 1;           
             PopulateRollsScore();
         }
 
@@ -24,34 +22,19 @@
             };
         }
 
-        public int GetRollScore(int index)
+        private int GetRollScore(int index)
         {
             return Rolls[index].GetRollScore();
         }
 
-        public int Score()
+        public virtual int Score()
         {
-            return GetRollScore(0) + GetRollScore(1);
+            return GetRollScore(0) + GetRollScore(1) ;
         }
 
         public bool IsLastFrame()
         {
             return _isLastFrame;
-        }
-
-        public bool IsStrike()
-        {
-            return Score() == 10 && Rolls[1].GetRollScore() == 0;
-        }
-
-        public bool IsOneBeforeLastFrame()
-        {
-            return _isOneBeforeLastFrame;
-        }
-
-        public bool IsStrikeOrSpare()
-        {
-            return Score() == 10;
         }
 
         public static Frame Parse(string frameRolls, int frameIndex, int gameLength, string[] gameResults, Roll[] bonusRolls)
@@ -66,28 +49,6 @@
             }
             return new Frame(frameRolls, frameIndex, gameLength);
         }
-
-        public virtual int GetNextRollScore()
-        {
-            return 0;
-        }
-
-        public virtual int GetSecondNextRollScore()
-        {
-            return 0;
-        }
-
-        public int GetAdditionalFrameScore()
-        {
-            var additionalFrameScore = 0;
-            if (!IsStrikeOrSpare()) return additionalFrameScore;
-            additionalFrameScore = GetNextRollScore();
-
-            if (IsStrike())
-            {
-                additionalFrameScore += GetSecondNextRollScore();
-            }
-            return additionalFrameScore;
-        }
+    
     }
 }

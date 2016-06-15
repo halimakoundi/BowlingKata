@@ -17,11 +17,9 @@ namespace BowlingKata.Src
             _bonusRolls = GetBonusRolls(game);
 
             _frames = GetFrames();
-            for (var i = 0; i < _frames.Length; i++)
+            foreach (var frame in _frames)
             {
-                var frame = _frames[i];
                 _gameScore += frame.Score();
-                _gameScore += frame.GetAdditionalFrameScore();
             }
             return _gameScore;
         }
