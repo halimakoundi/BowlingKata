@@ -21,16 +21,15 @@ namespace BowlingKata.Src
             {
                 var frame = _frames[i];
                 _gameScore += frame.Score();
-                _gameScore += GetAdditionalFrameScore(frame, i);
+                _gameScore += GetAdditionalFrameScore(frame);
             }
             return _gameScore;
         }
 
-        private int GetAdditionalFrameScore(Frame frame, int frameIndex)
+        private int GetAdditionalFrameScore(Frame frame)
         {
             var additionalFrameScore = 0;
             if (!frame.IsStrikeOrSpare()) return additionalFrameScore;
-            GetNextFrame(frame, frameIndex);
             additionalFrameScore = frame.GetNextRollScore();
 
             if (frame.IsStrike())
@@ -38,13 +37,6 @@ namespace BowlingKata.Src
                 additionalFrameScore += frame.GetSecondNextRollScore();
             }
             return additionalFrameScore;
-        }
-
-        private Frame GetNextFrame(Frame frame, int frameIndex)
-        {
-            return !frame.IsLastFrame()
-                ? _frames[frameIndex + 1]
-                    : null;
         }
 
         private static Roll[] GetBonusRolls(string game)
