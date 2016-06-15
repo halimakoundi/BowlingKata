@@ -42,13 +42,7 @@ namespace BowlingKata.Src
 
         private int GetSecondNextRollScore(Frame frame, int frameIndex, Frame nextFrame)
         {
-            if (!frame.IsLastFrame() && nextFrame.IsStrike())
-            {
-                return frame.IsOneBeforeLastFrame() ? _bonusRolls[0].GetRollScore() : _frames[frameIndex + 2].GetRollScore(0);
-            }
-            return !frame.IsLastFrame()
-                ? nextFrame.GetRollScore(1)
-                : _bonusRolls[1].GetRollScore();
+            return frame.GetSecondNextRollScore();
         }
 
         private static int GetNextRollScore(Frame frame, Frame nextFrame)

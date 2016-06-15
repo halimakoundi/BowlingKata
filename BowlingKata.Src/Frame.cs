@@ -71,5 +71,10 @@
         {
             return 0;
         }
+
+        public virtual int GetSecondNextRollScore()
+        {
+            return 0;
+        }
     }
 }
