@@ -15,23 +15,23 @@
 
         private void SetNextRollScores(int index, string[] gameResults, Roll[] bonusRolls)
         {
-            if (!IsLastFrame())
+            if (IsLastFrame())
             {
-                var nextFrameResults = gameResults[index + 1];
-                _nextRollScore = new Roll(nextFrameResults, 0);
-                var nextFrameIsStrike = nextFrameResults.Length == 1;
-                _secondNextRollScore = new Roll(nextFrameResults, 1);
-                if (nextFrameIsStrike)
-                {
-                    _secondNextRollScore = IsOneBeforeLastFrame() ?
-                                           bonusRolls[0]
-                                           : new Roll(gameResults[index + 2], 0);
-                }
+                _nextRollScore = bonusRolls[0];
+                _secondNextRollScore = bonusRolls[1];
                 return;
             }
-            _nextRollScore = bonusRolls[0];
-            _secondNextRollScore = bonusRolls[1];
 
+            var nextFrameResults = gameResults[index + 1];
+            _nextRollScore = new Roll(nextFrameResults, 0);
+            _secondNextRollScore = new Roll(nextFrameResults, 1);
+            var nextFrameIsStrike = nextFrameResults.Length == 1;
+            if (nextFrameIsStrike)
+            {
+                _secondNextRollScore = IsOneBeforeLastFrame() ?
+                                       bonusRolls[0]
+                                       : new Roll(gameResults[index + 2], 0);
+            }
         }
 
         protected void PopulateNextRollScore()
