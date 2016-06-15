@@ -30,24 +30,14 @@ namespace BowlingKata.Src
         {
             var additionalFrameScore = 0;
             if (!frame.IsStrikeOrSpare()) return additionalFrameScore;
-            var nextFrame = GetNextFrame(frame, frameIndex);
-            additionalFrameScore = GetNextRollScore(frame, nextFrame);
+            GetNextFrame(frame, frameIndex);
+            additionalFrameScore = frame.GetNextRollScore();
 
             if (frame.IsStrike())
             {
-                additionalFrameScore += GetSecondNextRollScore(frame, frameIndex, nextFrame);
+                additionalFrameScore += frame.GetSecondNextRollScore();
             }
             return additionalFrameScore;
-        }
-
-        private int GetSecondNextRollScore(Frame frame, int frameIndex, Frame nextFrame)
-        {
-            return frame.GetSecondNextRollScore();
-        }
-
-        private static int GetNextRollScore(Frame frame, Frame nextFrame)
-        {
-            return frame.GetNextRollScore();
         }
 
         private Frame GetNextFrame(Frame frame, int frameIndex)
