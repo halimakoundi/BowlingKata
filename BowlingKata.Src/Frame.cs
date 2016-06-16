@@ -32,7 +32,7 @@
             return GetRollScore(0) + GetRollScore(1) ;
         }
 
-        public bool IsLastFrame()
+        protected bool IsLastFrame()
         {
             return _isLastFrame;
         }

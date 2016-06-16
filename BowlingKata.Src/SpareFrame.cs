@@ -12,7 +12,7 @@
             PopulateNextRollScore();
         }
 
-        protected void PopulateNextRollScore()
+        private void PopulateNextRollScore()
         {
             Rolls = new Roll[]
             {
@@ -28,7 +28,7 @@
             return base.Score() + GetNextRollScore();
         }
 
-        public int GetNextRollScore()
+        private int GetNextRollScore()
         {
             return Rolls[2].GetRollScore();
         }
