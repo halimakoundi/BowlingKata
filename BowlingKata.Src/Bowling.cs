@@ -43,7 +43,7 @@ namespace BowlingKata.Src
                   StringSplitOptions.RemoveEmptyEntries);
 
             return gameResults
-                  .Select((x, index) => Frame.Parse(x, index, gameResults.Length, gameResults, _bonusRolls)).ToArray();
+                  .Select((x, index) => FrameFactory.Parse(x, index, gameResults.Length, gameResults, _bonusRolls)).ToArray();
         }
     }
 }
