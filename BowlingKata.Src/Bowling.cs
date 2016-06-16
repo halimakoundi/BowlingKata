@@ -34,7 +34,7 @@ namespace BowlingKata.Src
                                         new Roll(games[1], 0),
                                         new Roll(games[1], 1)
                                     }
-                                    : null;
+                                    : new Roll[]{ };
         }
 
         private Frame[] GetFrames()
