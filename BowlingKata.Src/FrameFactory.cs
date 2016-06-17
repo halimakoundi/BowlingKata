@@ -4,24 +4,25 @@ namespace BowlingKata.Src
     public class FrameFactory
     {
         internal static Frame Create(string singleFrameToParse,
-                                        int frameIndex,
-                                        string[] framesToParse,
-                                        Roll[] bonusRolls,
-                                        Roll[] getNormalRollsForFrame)
+                                        Roll[] frameRolls,
+                                        Roll nextRoll,
+                                        Roll secondNextRollForStrike)
         {
+            var frame = new Frame(frameRolls);
+
             if (Parser.IsSpare(singleFrameToParse))
             {
-                return new SpareFrame(Parser.NextRoll(frameIndex, framesToParse, bonusRolls),
-                                        getNormalRollsForFrame);
+                frame = new SpareFrame(nextRoll,
+                                        frameRolls);
             }
             if (Parser.IsStrike(singleFrameToParse))
             {
-                return new StrikeFrame(Parser.NextRoll(frameIndex, framesToParse, bonusRolls),
-                                        Parser.SecondNextRollForStrike(frameIndex, framesToParse, bonusRolls),
-                                        getNormalRollsForFrame);
+                frame = new StrikeFrame(nextRoll,
+                                        secondNextRollForStrike,
+                                        frameRolls);
             }
 
-            return new Frame(getNormalRollsForFrame);
+            return frame;
         }
     }
 }

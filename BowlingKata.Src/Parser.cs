@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 
 namespace BowlingKata.Src
-{ 
+{
 
     public class Parser
     {
@@ -15,10 +15,9 @@ namespace BowlingKata.Src
                 .Select((singleFrameToParse, index) => FrameFactory
                     .Create(
                         singleFrameToParse,
-                        index,
-                        framesToParse,
-                        bonusRolls,
-                        GetNormalRollsForFrame(singleFrameToParse)))
+                    GetNormalRollsForFrame(singleFrameToParse),
+                    Parser.NextRoll(index, framesToParse, bonusRolls),
+                    Parser.SecondNextRollForStrike(index, framesToParse, bonusRolls)))
                 .ToArray();
         }
 
@@ -29,19 +28,19 @@ namespace BowlingKata.Src
 
         public static bool IsOneBeforeLastFrame(int index, int gameLength)
         {
-            return Parser.IsLastFrame(index,gameLength-1);
+            return Parser.IsLastFrame(index, gameLength - 1);
         }
 
         public static Roll SecondNextRollForStrike(int index, string[] framesToParse, Roll[] bonusRolls)
         {
-            if (IsLastFrame(index,framesToParse.Length))
+            if (IsLastFrame(index, framesToParse.Length))
             {
-                return  bonusRolls[1];
+                return bonusRolls[1];
             }
             var nextFrameResults = framesToParse[index + 1];
             if (IsStrike(nextFrameResults))
             {
-                return IsOneBeforeLastFrame(index,framesToParse.Length)
+                return IsOneBeforeLastFrame(index, framesToParse.Length)
                     ? bonusRolls[0]
                     : new Roll(framesToParse[index + 2], 0);
             }
@@ -60,7 +59,7 @@ namespace BowlingKata.Src
 
         public static Roll NextRoll(int index, string[] framesToParse, Roll[] bonusRolls)
         {
-            if (IsLastFrame(index,framesToParse.Length))
+            if (IsLastFrame(index, framesToParse.Length))
             {
                 return bonusRolls[0];
             }
@@ -87,7 +86,11 @@ namespace BowlingKata.Src
                     new Roll(normalAndBonusRolls[1], 0),
                     new Roll(normalAndBonusRolls[1], 1)
                 }
-                : new Roll[] { };
+                : new[]
+                {
+                    new Roll(string.Empty, 0),
+                    new Roll(string.Empty, 0)
+                };
         }
 
         private static bool HasBonusRolls(string[] games)
@@ -104,7 +107,7 @@ namespace BowlingKata.Src
         private static string[] FramesToParse(string game)
         {
             var normalRolls = NormalAndBonusRolls(game)[0];
-            return normalRolls.Split(new[] {"|"},
+            return normalRolls.Split(new[] { "|" },
                 StringSplitOptions.RemoveEmptyEntries);
         }
     }
