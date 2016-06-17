@@ -2,12 +2,12 @@
 {
     internal class SpareFrame : Frame
     {
-        private readonly Roll _nextRollResults;
+        private readonly Roll _nextRoll;
 
         public SpareFrame(string frameRolls, Roll nextRoll) 
             : base(frameRolls)
         {
-            _nextRollResults = nextRoll;
+            _nextRoll = nextRoll;
         }
 
         public override int Score()
@@ -17,7 +17,7 @@
 
         private int GetNextRollScore()
         {
-            return _nextRollResults.GetRollScore();
+            return _nextRoll.GetRollScore();
         }
     }
 }
