@@ -16,35 +16,9 @@ namespace BowlingKata.Src
                     .Create(
                         singleFrameToParse,
                     GetNormalRollsForFrame(singleFrameToParse),
-                    Parser.NextRoll(index, framesToParse, bonusRolls),
-                    Parser.SecondNextRollForStrike(index, framesToParse, bonusRolls)))
+                    NextRoll(index, framesToParse, bonusRolls),
+                    SecondNextRollForStrike(index, framesToParse, bonusRolls)))
                 .ToArray();
-        }
-
-        public static bool IsLastFrame(int index, int gameLength)
-        {
-            return index == gameLength - 1;
-        }
-
-        public static bool IsOneBeforeLastFrame(int index, int gameLength)
-        {
-            return Parser.IsLastFrame(index, gameLength - 1);
-        }
-
-        public static Roll SecondNextRollForStrike(int index, string[] framesToParse, Roll[] bonusRolls)
-        {
-            if (IsLastFrame(index, framesToParse.Length))
-            {
-                return bonusRolls[1];
-            }
-            var nextFrameResults = framesToParse[index + 1];
-            if (IsStrike(nextFrameResults))
-            {
-                return IsOneBeforeLastFrame(index, framesToParse.Length)
-                    ? bonusRolls[0]
-                    : new Roll(framesToParse[index + 2], 0);
-            }
-            return new Roll(nextFrameResults, 1);
         }
 
         public static bool IsSpare(string singleFrameToParse)
@@ -57,23 +31,17 @@ namespace BowlingKata.Src
             return frameResults.Length == 1;
         }
 
-        public static Roll NextRoll(int index, string[] framesToParse, Roll[] bonusRolls)
+        private static string[] FramesToParse(string game)
         {
-            if (IsLastFrame(index, framesToParse.Length))
-            {
-                return bonusRolls[0];
-            }
-            var nextFrameResults = framesToParse[index + 1];
-            return new Roll(nextFrameResults, 0);
+            var normalRolls = NormalAndBonusRolls(game)[0];
+            return normalRolls.Split(new[] { "|" },
+                StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static Roll[] GetNormalRollsForFrame(string rollsResult)
+        private static string[] NormalAndBonusRolls(string game)
         {
-            return new[]
-            {
-                new Roll(rollsResult, 0),
-                new Roll(rollsResult, 1),
-            };
+            return game.Split(new[] { "||" },
+                StringSplitOptions.RemoveEmptyEntries);
         }
 
         private static Roll[] GetBonusRolls(string game)
@@ -98,17 +66,49 @@ namespace BowlingKata.Src
             return games.Length > 1;
         }
 
-        private static string[] NormalAndBonusRolls(string game)
+        private static Roll[] GetNormalRollsForFrame(string rollsResult)
         {
-            return game.Split(new[] { "||" },
-                StringSplitOptions.RemoveEmptyEntries);
+            return new[]
+            {
+                new Roll(rollsResult, 0),
+                new Roll(rollsResult, 1),
+            };
         }
 
-        private static string[] FramesToParse(string game)
+        private static Roll NextRoll(int index, string[] framesToParse, Roll[] bonusRolls)
         {
-            var normalRolls = NormalAndBonusRolls(game)[0];
-            return normalRolls.Split(new[] { "|" },
-                StringSplitOptions.RemoveEmptyEntries);
+            if (IsLastFrame(index, framesToParse.Length))
+            {
+                return bonusRolls[0];
+            }
+            var nextFrameResults = framesToParse[index + 1];
+            return new Roll(nextFrameResults, 0);
+        }
+
+        private static Roll SecondNextRollForStrike(int index, string[] framesToParse, Roll[] bonusRolls)
+        {
+            if (IsLastFrame(index, framesToParse.Length))
+            {
+                return bonusRolls[1];
+            }
+            var nextFrameResults = framesToParse[index + 1];
+            if (IsStrike(nextFrameResults))
+            {
+                return IsOneBeforeLastFrame(index, framesToParse.Length)
+                    ? bonusRolls[0]
+                    : new Roll(framesToParse[index + 2], 0);
+            }
+            return new Roll(nextFrameResults, 1);
+        }
+
+        private static bool IsOneBeforeLastFrame(int index, int gameLength)
+        {
+            return Parser.IsLastFrame(index, gameLength - 1);
+        }
+
+        private static bool IsLastFrame(int index, int gameLength)
+        {
+            return index == gameLength - 1;
         }
     }
 }
