@@ -5,8 +5,8 @@
         private readonly Roll _nextRoll;
         private readonly Roll _secondNextRoll;
 
-        public StrikeFrame(string frameRolls, Roll nextRoll, Roll secondNextRoll)
-            : base(Parser.GetNormalRollsForFrame(frameRolls))
+        public StrikeFrame(Roll nextRoll, Roll secondNextRoll, Roll[] frameRolls)
+            : base(frameRolls)
         {
             _nextRoll = nextRoll;
             _secondNextRoll = secondNextRoll;

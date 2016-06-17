@@ -18,7 +18,7 @@ namespace BowlingKata.Src
                         index,
                         framesToParse.Length,
                         framesToParse,
-                        bonusRolls))
+                        bonusRolls, Parser.GetNormalRollsForFrame(singleFrameToParse)))
                 .ToArray();
         }
 

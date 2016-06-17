@@ -4,8 +4,8 @@
     {
         private readonly Roll _nextRoll;
 
-        public SpareFrame(string frameRolls, Roll nextRoll) 
-            : base(Parser.GetNormalRollsForFrame(frameRolls))
+        public SpareFrame(Roll nextRoll, Roll[] frameRolls) 
+            : base(frameRolls)
         {
             _nextRoll = nextRoll;
         }
