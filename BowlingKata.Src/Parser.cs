@@ -13,11 +13,10 @@ namespace BowlingKata.Src
 
             return framesToParse
                 .Select((singleFrameToParse, index) => FrameFactory
-                    .Create(
-                        singleFrameToParse,
-                    GetNormalRollsForFrame(singleFrameToParse),
-                    NextRoll(index, framesToParse, bonusRolls),
-                    SecondNextRollForStrike(index, framesToParse, bonusRolls)))
+                    .Create(singleFrameToParse,
+                            GetNormalRollsForFrame(singleFrameToParse),
+                            NextRoll(index, framesToParse, bonusRolls),
+                            SecondNextRollForStrike(index, framesToParse, bonusRolls)))
                 .ToArray();
         }
 
@@ -47,23 +46,13 @@ namespace BowlingKata.Src
         private static Roll[] GetBonusRolls(string game)
         {
             var normalAndBonusRolls = NormalAndBonusRolls(game);
-
-            return HasBonusRolls(normalAndBonusRolls) ?
-                new[]
-                {
-                    new Roll(normalAndBonusRolls[1], 0),
-                    new Roll(normalAndBonusRolls[1], 1)
-                }
-                : new[]
-                {
-                    new Roll(string.Empty, 0),
-                    new Roll(string.Empty, 0)
-                };
-        }
-
-        private static bool HasBonusRolls(string[] games)
-        {
-            return games.Length > 1;
+            var gameHasBonusRolls = normalAndBonusRolls.Length > 1;
+            var bonusRolls = gameHasBonusRolls ? normalAndBonusRolls[1] : string.Empty;
+            return new[]
+                    {
+                        new Roll(bonusRolls, 0),
+                        new Roll(bonusRolls, 1)
+                    };
         }
 
         private static Roll[] GetNormalRollsForFrame(string rollsResult)
