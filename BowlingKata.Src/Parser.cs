@@ -16,9 +16,9 @@ namespace BowlingKata.Src
                     .Create(
                         singleFrameToParse,
                         index,
-                        framesToParse.Length,
                         framesToParse,
-                        bonusRolls, Parser.GetNormalRollsForFrame(singleFrameToParse)))
+                        bonusRolls,
+                        GetNormalRollsForFrame(singleFrameToParse)))
                 .ToArray();
         }
 
@@ -77,7 +77,7 @@ namespace BowlingKata.Src
             };
         }
 
-        private Roll[] GetBonusRolls(string game)
+        private static Roll[] GetBonusRolls(string game)
         {
             var normalAndBonusRolls = NormalAndBonusRolls(game);
 
@@ -101,7 +101,7 @@ namespace BowlingKata.Src
                 StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private string[] FramesToParse(string game)
+        private static string[] FramesToParse(string game)
         {
             var normalRolls = NormalAndBonusRolls(game)[0];
             return normalRolls.Split(new[] {"|"},

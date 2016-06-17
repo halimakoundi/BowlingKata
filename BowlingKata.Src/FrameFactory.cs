@@ -3,7 +3,11 @@ namespace BowlingKata.Src
 {
     public class FrameFactory
     {
-        internal static Frame Create(string singleFrameToParse, int frameIndex, int gameLength, string[] framesToParse, Roll[] bonusRolls, Roll[] getNormalRollsForFrame)
+        internal static Frame Create(string singleFrameToParse,
+                                        int frameIndex,
+                                        string[] framesToParse,
+                                        Roll[] bonusRolls,
+                                        Roll[] getNormalRollsForFrame)
         {
             if (Parser.IsSpare(singleFrameToParse))
             {
