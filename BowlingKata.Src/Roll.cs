@@ -2,7 +2,7 @@ using static System.Int32;
 
 namespace BowlingKata.Src
 {
-    internal class Roll
+    public class Roll
     {
         private readonly int _pins;
 

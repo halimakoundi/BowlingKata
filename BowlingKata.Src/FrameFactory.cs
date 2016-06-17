@@ -3,18 +3,31 @@ namespace BowlingKata.Src
 {
     public class FrameFactory
     {
-        internal static Frame Parse(string frameRolls, int frameIndex, int gameLength, string[] gameResults, Roll[] bonusRolls)
+        internal static Frame Create(string singleFrameToParse, int frameIndex, int gameLength, string[] framesToParse, Roll[] bonusRolls)
         {
-            if (frameRolls.Length == 1 && frameRolls[0] == 'X')
+            if (IsSpare(singleFrameToParse))
             {
-                return new StrikeFrame(frameRolls, frameIndex, gameLength, gameResults, bonusRolls);
+                return new SpareFrame(singleFrameToParse, 
+                    Parser.NextRoll(frameIndex, framesToParse, bonusRolls));
             }
-            if (frameRolls.Length > 1 && frameRolls[1] == '/')
+            if (IsStrike(singleFrameToParse))
             {
-                return new SpareFrame(frameRolls, frameIndex, gameLength, gameResults, bonusRolls);
+                return new StrikeFrame(singleFrameToParse, 
+                    Parser.NextRoll(frameIndex, framesToParse, bonusRolls), 
+                    Parser.SecondNextRollForStrike(frameIndex, framesToParse, bonusRolls));
             }
-            return new Frame(frameRolls, frameIndex, gameLength);
+
+            return new Frame(singleFrameToParse);
         }
 
+        private static bool IsSpare(string singleFrameToParse)
+        {
+            return singleFrameToParse.Length > 1 && singleFrameToParse[1] == '/';
+        }
+
+        private static bool IsStrike(string singleFrameToParse)
+        {
+            return singleFrameToParse.Length == 1 && singleFrameToParse[0] == 'X';
+        }
     }
 }
