@@ -5,12 +5,12 @@ namespace BowlingKata.Src
     {
         internal static Frame Create(string singleFrameToParse, int frameIndex, int gameLength, string[] framesToParse, Roll[] bonusRolls)
         {
-            if (IsSpare(singleFrameToParse))
+            if (Parser.IsSpare(singleFrameToParse))
             {
                 return new SpareFrame(singleFrameToParse, 
                     Parser.NextRoll(frameIndex, framesToParse, bonusRolls));
             }
-            if (IsStrike(singleFrameToParse))
+            if (Parser.IsStrike(singleFrameToParse))
             {
                 return new StrikeFrame(singleFrameToParse, 
                     Parser.NextRoll(frameIndex, framesToParse, bonusRolls), 
@@ -18,16 +18,6 @@ namespace BowlingKata.Src
             }
 
             return new Frame(singleFrameToParse);
-        }
-
-        private static bool IsSpare(string singleFrameToParse)
-        {
-            return singleFrameToParse.Length > 1 && singleFrameToParse[1] == '/';
-        }
-
-        private static bool IsStrike(string singleFrameToParse)
-        {
-            return singleFrameToParse.Length == 1 && singleFrameToParse[0] == 'X';
         }
     }
 }

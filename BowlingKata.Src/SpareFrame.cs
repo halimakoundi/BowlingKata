@@ -19,6 +19,5 @@
         {
             return _nextRollResults.GetRollScore();
         }
-
     }
 }

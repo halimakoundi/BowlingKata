@@ -48,9 +48,9 @@ namespace BowlingKata.Src
             return new Roll(nextFrameResults, 1);
         }
 
-        public static bool IsStrike(string nextFrameResults)
+        public static bool IsStrike(string frameResults)
         {
-            return nextFrameResults.Length == 1;
+            return frameResults.Length == 1;
         }
 
         public static Roll NextRoll(int index, string[] framesToParse, Roll[] bonusRolls)
@@ -101,6 +101,11 @@ namespace BowlingKata.Src
             var normalRolls = NormalAndBonusRolls(game)[0];
             return normalRolls.Split(new[] {"|"},
                 StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        public static bool IsSpare(string singleFrameToParse)
+        {
+            return singleFrameToParse.Length > 1 && singleFrameToParse[1] == '/';
         }
     }
 }
