@@ -17,7 +17,7 @@ namespace BowlingKata.Src
                     Parser.SecondNextRollForStrike(frameIndex, framesToParse, bonusRolls));
             }
 
-            return new Frame(singleFrameToParse);
+            return new Frame(Parser.GetNormalRollsForFrame(singleFrameToParse));
         }
     }
 }

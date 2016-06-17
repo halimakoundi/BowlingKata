@@ -4,9 +4,9 @@
     {
         protected Roll[] Rolls;
 
-        public Frame(string frameRolls)
+        public Frame(Roll[] frameRolls)
         {
-            Rolls = Parser.GetNormalRollsForFrame(frameRolls);
+            Rolls = frameRolls;
         }
 
         private int GetRollScore(int index)
